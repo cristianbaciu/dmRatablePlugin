@@ -15,7 +15,7 @@ class Doctrine_Template_DmRatable extends Doctrine_Template
     'options'       => array(),
     'field'         => 'rate',
     'max_rate'      => 5,
-    'rounding_rate' => 1,
+    'rounding_rate' => 2,
     'user'          => array('class' => 'DmUser', 'type'  => 'integer')
   );
 
@@ -56,20 +56,20 @@ class Doctrine_Template_DmRatable extends Doctrine_Template
    */
   public function getRating()
   {
-    $select_format = 'AVG(r.%s) %s';
+    $select = sprintf('AVG(r.%s) %s', $this->getDmRatable()->getOption('field'), 'rating');
 
-    $q = $this->getRatesQuery()->select($this->getDmRatable()->getOption('field'));
+    $q = $this->getRatesQuery()->select($select);
     
-    $rate = $q->fetchValue();
-    $rate = $rate ? $rate : 0;
+    $rating = $q->fetchValue();
+    $rating = $rating ? $rating : 0;
 
-    return $this->round($rate);
+    return $this->round($rating);
   }
 
   public function round($value)
   {
     $rounding = $this->getDmRatable()->getOption('rounding_rate');
-    return (round($value/$rounding)*$rounding);
+    return round($value, $rounding);
   }
 
   /**
