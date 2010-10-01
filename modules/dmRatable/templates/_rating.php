@@ -1,6 +1,6 @@
 <?php
 
-echo _open('div.dm_ratable_rating', array('data-hash' => $record->getRatableHash()));
+echo _open('div.dm_ratable_rating.marginLeft10', array('data-hash' => $record->getRatableHash()));
 
     echo _tag('div.message', isset($message) ? $message : '');
 
